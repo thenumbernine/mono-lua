@@ -2,7 +2,7 @@
 
 ## Usage:
 ```
-luajit run.lua assemblyFileName className methodName [namespaceName]
+luajit run.lua assemblyPath className methodName [namespaceName]
 ```
 
 ## Example:

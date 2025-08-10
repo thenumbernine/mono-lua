@@ -1765,8 +1765,88 @@ mono_set_use_llvm (mono_bool use_llvm);
  void
 mono_aot_register_module (void **aot_info);
 MonoDomain* mono_jit_thread_attach (MonoDomain *domain);
-enum { _MONO_JIT_JIT_H_ = 1 };
 /* + END <mono/jit/jit.h> /usr/lib/pkgconfig/../../include/mono-2.0/mono/jit/jit.h */
+/* + BEGIN <mono/metadata/assembly.h> /usr/lib/pkgconfig/../../include/mono-2.0/mono/metadata/assembly.h */
+ void mono_assemblies_init (void);
+ void mono_assemblies_cleanup (void);
+MonoAssembly *mono_assembly_open (const char *filename,
+            MonoImageOpenStatus *status);
+MonoAssembly *mono_assembly_open_full (const char *filename,
+            MonoImageOpenStatus *status,
+     mono_bool refonly);
+MonoAssembly* mono_assembly_load (MonoAssemblyName *aname,
+                                        const char *basedir,
+          MonoImageOpenStatus *status);
+MonoAssembly* mono_assembly_load_full (MonoAssemblyName *aname,
+                                        const char *basedir,
+          MonoImageOpenStatus *status,
+     mono_bool refonly);
+MonoAssembly* mono_assembly_load_from (MonoImage *image, const char *fname,
+     MonoImageOpenStatus *status);
+MonoAssembly* mono_assembly_load_from_full (MonoImage *image, const char *fname,
+     MonoImageOpenStatus *status,
+     mono_bool refonly);
+MonoAssembly* mono_assembly_load_with_partial_name (const char *name, MonoImageOpenStatus *status);
+MonoAssembly* mono_assembly_loaded (MonoAssemblyName *aname);
+MonoAssembly* mono_assembly_loaded_full (MonoAssemblyName *aname, mono_bool refonly);
+ void mono_assembly_get_assemblyref (MonoImage *image, int index, MonoAssemblyName *aname);
+ void mono_assembly_load_reference (MonoImage *image, int index);
+ void mono_assembly_load_references (MonoImage *image, MonoImageOpenStatus *status);
+ MonoImage* mono_assembly_load_module (MonoAssembly *assembly, uint32_t idx);
+ void mono_assembly_close (MonoAssembly *assembly);
+ void mono_assembly_setrootdir (const char *root_dir);
+ const char *mono_assembly_getrootdir (void);
+ char *mono_native_getrootdir (void);
+ void mono_assembly_foreach (MonoFunc func, void* user_data);
+ void mono_assembly_set_main (MonoAssembly *assembly);
+ MonoAssembly *mono_assembly_get_main (void);
+MonoImage *mono_assembly_get_image (MonoAssembly *assembly);
+MonoAssemblyName *mono_assembly_get_name (MonoAssembly *assembly);
+ mono_bool mono_assembly_fill_assembly_name (MonoImage *image, MonoAssemblyName *aname);
+ mono_bool mono_assembly_names_equal (MonoAssemblyName *l, MonoAssemblyName *r);
+ char* mono_stringify_assembly_name (MonoAssemblyName *aname);
+typedef void (*MonoAssemblyLoadFunc) (MonoAssembly *assembly, void* user_data);
+ void
+mono_install_assembly_load_hook (MonoAssemblyLoadFunc func, void* user_data);
+typedef MonoAssembly *(*MonoAssemblySearchFunc) (MonoAssemblyName *aname, void* user_data);
+void mono_install_assembly_search_hook (MonoAssemblySearchFunc func, void* user_data);
+void mono_install_assembly_refonly_search_hook (MonoAssemblySearchFunc func, void* user_data);
+MonoAssembly* mono_assembly_invoke_search_hook (MonoAssemblyName *aname);
+void
+mono_install_assembly_postload_search_hook (MonoAssemblySearchFunc func, void* user_data);
+void
+mono_install_assembly_postload_refonly_search_hook (MonoAssemblySearchFunc func, void* user_data);
+typedef MonoAssembly * (*MonoAssemblyPreLoadFunc) (MonoAssemblyName *aname,
+         char **assemblies_path,
+         void* user_data);
+void mono_install_assembly_preload_hook (MonoAssemblyPreLoadFunc func, void* user_data);
+void mono_install_assembly_refonly_preload_hook (MonoAssemblyPreLoadFunc func, void* user_data);
+ void
+mono_assembly_invoke_load_hook (MonoAssembly *ass);
+ MonoAssemblyName* mono_assembly_name_new (const char *name);
+ const char* mono_assembly_name_get_name (MonoAssemblyName *aname);
+ const char* mono_assembly_name_get_culture (MonoAssemblyName *aname);
+ uint16_t mono_assembly_name_get_version (MonoAssemblyName *aname,
+            uint16_t *minor, uint16_t *build, uint16_t *revision);
+ mono_byte* mono_assembly_name_get_pubkeytoken (MonoAssemblyName *aname);
+ void mono_assembly_name_free (MonoAssemblyName *aname);
+typedef struct {
+ const char *name;
+ const unsigned char *data;
+ unsigned int size;
+} MonoBundledAssembly;
+ void mono_register_bundled_assemblies (const MonoBundledAssembly **assemblies);
+ void mono_register_config_for_assembly (const char* assembly_name, const char* config_xml);
+ void mono_register_symfile_for_assembly (const char* assembly_name, const mono_byte *raw_contents, int size);
+ void mono_register_machine_config (const char *config_xml);
+ void mono_set_rootdir (void);
+ void mono_set_dirs (const char *assembly_dir, const char *config_dir);
+ void mono_set_assemblies_path (const char* path);
+enum { _MONO_JIT_JIT_H_ = 1 };
+enum { _MONONET_METADATA_ASSEMBLY_H_ = 1 };
+/* + END <mono/metadata/assembly.h> /usr/lib/pkgconfig/../../include/mono-2.0/mono/metadata/assembly.h */
 ]]
 ffi.load('/usr/lib/x86_64-linux-gnu/libstdc++.so.6', true)
+--ffi.load '/usr/lib/libmonosgen-2.0.so'
+--ffi.load '/usr/lib/libmono-native.so'
 return ffi.load '/usr/lib/libmono-2.0.so'
