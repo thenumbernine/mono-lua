@@ -1,5 +1,11 @@
 # C#/Mono in LuaJIT
 
+# Setup:
+Linux:
+```
+apt install mono-devel
+```
+
 # Usage:
 ```
 luajit run.lua assemblyPath className methodName [namespaceName]
