@@ -1,3 +1,21 @@
+--------------------------------------------
+-- generated with dist/build-distinfo.rua --
+--------------------------------------------
+
+name = "mono"
+files = {
+	["README.md"] = "mono/README.md",
+	["Test.cs"] = "mono/Test.cs",
+	["distinfo"] = "mono/distinfo",
+	["ffi/mono.lua"] = "mono/ffi/mono.lua",
+	["mono.lua"] = "mono/mono.lua",
+	["run.lua"] = "mono/run.lua",
+}
+deps = {
+	"ext",
+	"ffi",
+}
+
 generateBindings = {
 	{
 		inc = '<mono/jit/jit.h>',
