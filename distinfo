@@ -16,7 +16,7 @@ deps = {
 	"ffi",
 }
 
-generateBindings = {
+generateBindings = function()return{
 	{
 		inc = '<mono/jit/jit.h>',
 		moreincs = {
@@ -36,4 +36,4 @@ return ffi.load '/usr/lib/libmono-2.0.so'
 			return code
 		end,
 	},
-}
+}end
