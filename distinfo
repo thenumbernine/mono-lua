@@ -4,12 +4,12 @@
 
 name = "mono"
 files = {
-	["README.md"] = "mono/README.md",
-	["Test.cs"] = "mono/Test.cs",
-	["distinfo"] = "mono/distinfo",
-	["ffi/mono.lua"] = "mono/ffi/mono.lua",
-	["mono.lua"] = "mono/mono.lua",
-	["run.lua"] = "mono/run.lua",
+	"README.md",
+	"Test.cs",
+	"distinfo",
+	"ffi/mono.lua",
+	"mono.lua",
+	"run.lua",
 }
 deps = {
 	"ext",
